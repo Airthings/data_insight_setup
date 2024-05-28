@@ -1,4 +1,4 @@
-# Set execution policy to bypass for this process
+# Set execution policy to bypass for thi
 Set-ExecutionPolicy Bypass -Scope Process -Force
 
 # Ensure TLS 1.2 is used for the download
