@@ -70,7 +70,7 @@ if [ $? -eq 0 ]; then
 
     # Ensure pipx path
     pipx ensurepath
-    sudo pipx ensurepath --global
+    sudo pipx ensurepath
 
     # Install poetry using pipx
     pipx install poetry
