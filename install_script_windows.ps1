@@ -16,3 +16,11 @@ choco install awscli -y
 # Install pyenv
 choco install pyenv-win -y
 
+# Install pipx using Chocolatey
+choco install pipx -y
+
+# Ensure pipx path is added to shell
+pipx ensurepath
+
+# Install poetry using pipx
+pipx install poetry
