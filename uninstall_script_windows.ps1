@@ -14,7 +14,7 @@ function Uninstall-Package {
             Write-Host "$packageName is not installed."
         }
     } catch {
-        Write-Host "An error occurred while uninstalling $packageName: $_"
+        Write-Host "An error occurred while uninstalling $packageName: ${_}"
     }
 }
 
@@ -22,14 +22,14 @@ function Uninstall-Package {
 try {
     pipx uninstall poetry
 } catch {
-    Write-Host "An error occurred while uninstalling poetry: $_"
+    Write-Host "An error occurred while uninstalling poetry: ${_}"
 }
 
 # Uninstall pipx using Scoop
 try {
     scoop uninstall pipx
 } catch {
-    Write-Host "An error occurred while uninstalling pipx: $_"
+    Write-Host "An error occurred while uninstalling pipx: ${_}"
 }
 
 # Remove Scoop from the path
@@ -38,28 +38,28 @@ try {
     [System.Environment]::SetEnvironmentVariable('PATH', $env:PATH -replace ";$scoopPath", '', [System.EnvironmentVariableTarget]::Machine)
     $env:PATH = $env:PATH -replace ";$scoopPath", ''
 } catch {
-    Write-Host "An error occurred while removing Scoop from the PATH: $_"
+    Write-Host "An error occurred while removing Scoop from the PATH: ${_}"
 }
 
 # Uninstall Scoop (deletes scoop directory)
 try {
     Remove-Item -Recurse -Force "$($env:USERPROFILE)\scoop"
 } catch {
-    Write-Host "An error occurred while uninstalling Scoop: $_"
+    Write-Host "An error occurred while uninstalling Scoop: ${_}"
 }
 
 # Uninstall pyenv specific version of Python
 try {
     pyenv uninstall 3.9.7
 } catch {
-    Write-Host "An error occurred while uninstalling Python 3.9.7 with pyenv: $_"
+    Write-Host "An error occurred while uninstalling Python 3.9.7 with pyenv: ${_}"
 }
 
 # Reset pyenv global to system
 try {
     pyenv global system
 } catch {
-    Write-Host "An error occurred while resetting pyenv global: $_"
+    Write-Host "An error occurred while resetting pyenv global: ${_}"
 }
 
 # Remove pyenv from environment variables
@@ -69,7 +69,7 @@ try {
     $env:PATH = $env:PATH -replace "$env:PYENV\pyenv-win\shims;", ''
     [System.Environment]::SetEnvironmentVariable('PATH', $env:PATH, [System.EnvironmentVariableTarget]::Process)
 } catch {
-    Write-Host "An error occurred while removing pyenv from environment variables: $_"
+    Write-Host "An error occurred while removing pyenv from environment variables: ${_}"
 }
 
 # Uninstall pyenv
@@ -85,7 +85,7 @@ Uninstall-Package -packageName "Git.Git"
 try {
     choco uninstall -y chocolatey
 } catch {
-    Write-Host "An error occurred while uninstalling Chocolatey: $_"
+    Write-Host "An error occurred while uninstalling Chocolatey: ${_}"
 }
 
 # Remove Chocolatey environment variables
@@ -95,7 +95,7 @@ try {
     [System.Environment]::SetEnvironmentVariable('PATH', $env:PATH, [System.EnvironmentVariableTarget]::Process)
     [System.Environment]::SetEnvironmentVariable('PATH', $env:PATH, [System.EnvironmentVariableTarget]::Machine)
 } catch {
-    Write-Host "An error occurred while removing Chocolatey from the PATH: $_"
+    Write-Host "An error occurred while removing Chocolatey from the PATH: ${_}"
 }
 
 Write-Host "All specified packages have been uninstalled and environment variables reset."
