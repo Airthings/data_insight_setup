@@ -62,6 +62,7 @@ scoop install pipx
 
 # Ensure pipx path is added to shell
 pipx ensurepath
+$Env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
 
 # Install poetry using pipx
 pipx install poetry
