@@ -1,19 +1,26 @@
 # Save this script to a file, for example, install_tools.ps1
 
-# Function to install a package using winget
+# Function to install a package using Chocolatey
 function Install-Package {
     param (
         [string]$packageName
     )
 
+    # Check if Chocolatey is installed
+    if (!(Get-Command choco -ErrorAction SilentlyContinue)) {
+        Write-Host "Chocolatey is not installed. Installing Chocolatey..."
+        Set-ExecutionPolicy Bypass -Scope Process -Force
+        iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+    }
+
     # Check if the package is already installed
-    $packageInstalled = winget list | Select-String -Pattern $packageName
+    $packageInstalled = choco list --local-only | Select-String -Pattern $packageName
     if ($packageInstalled) {
         Write-Host "$packageName is already installed."
     } else {
         # Install the package
         Write-Host "Installing $packageName..."
-        winget install --id $packageName --silent --accept-package-agreements --accept-source-agreements
+        choco install $packageName -y
     }
 }
 
@@ -23,17 +30,14 @@ Set-ExecutionPolicy Bypass -Scope Process -Force
 # Ensure TLS 1.2 is used for the download
 [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072
 
-# Download and execute the Chocolatey installation script
-iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
-
 # Install Git
-Install-Package -packageName "Git.Git"
+Install-Package -packageName "git"
 
 # Install AWS CLI
-Install-Package -packageName "Amazon.AWSCLI"
+Install-Package -packageName "awscli"
 
-# Install pyenv
-Install-Package -packageName "pyenv.pyenv"
+# Install pyenv-win
+Install-Package -packageName "pyenv-win"
 
 # Initialize pyenv
 $env:PYENV = "$($env:USERPROFILE)\.pyenv"
@@ -45,8 +49,6 @@ $env:PATH = "$env:PYENV\pyenv-win\bin;$env:PYENV\pyenv-win\shims;$env:PATH"
 # Install a specific version of Python using pyenv
 pyenv install 3.9.7
 pyenv global 3.9.7
-Remove-Item $env:LOCALAPPDATA\Microsoft\WindowsApps\python.exe
-Remove-Item $env:LOCALAPPDATA\Microsoft\WindowsApps\python3.exe
 
 # Update pip to the latest version
 python -m pip install --upgrade pip
@@ -64,7 +66,7 @@ scoop install pipx
 
 # Ensure pipx path is added to shell
 pipx ensurepath
-$Env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
 
 # Install poetry using pipx
 pipx install poetry
+
