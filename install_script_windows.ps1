@@ -45,6 +45,8 @@ $env:PATH = "$env:PYENV\pyenv-win\bin;$env:PYENV\pyenv-win\shims;$env:PATH"
 # Install a specific version of Python using pyenv
 pyenv install 3.9.7
 pyenv global 3.9.7
+Remove-Item $env:LOCALAPPDATA\Microsoft\WindowsApps\python.exe
+Remove-Item $env:LOCALAPPDATA\Microsoft\WindowsApps\python3.exe
 
 # Update pip to the latest version
 python -m pip install --upgrade pip
@@ -66,4 +68,3 @@ $Env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";"
 
 # Install poetry using pipx
 pipx install poetry
-
