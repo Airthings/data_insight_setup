@@ -49,8 +49,8 @@ pyenv global 3.9.7
 # Update pip to the latest version
 python -m pip install --upgrade pip
 
-# Install Scoop
-iex (new-object net.webclient).downloadstring('https://get.scoop.sh')
+# Install Scoop as an administrator
+iex "& {$(irm get.scoop.sh)} -RunAsAdmin"
 
 # Ensure Scoop is in the path
 $scoopPath = "$($env:USERPROFILE)\scoop\shims"
