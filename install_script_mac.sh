@@ -52,6 +52,28 @@ if [ $? -eq 0 ]; then
     # Check if pyenv was installed successfully
     if [ $? -eq 0 ]; then
         echo "pyenv installed successfully."
+
+        # Install Python 3.9.18 using pyenv
+        pyenv install 3.9.18
+
+        # Check if Python 3.9.18 was installed successfully
+        if [ $? -eq 0 ]; then
+            echo "Python 3.9.18 installed successfully."
+
+            # Set Python 3.9.18 as the global version
+            pyenv global 3.9.18
+
+            # Check if Python 3.9.18 was set as the global version successfully
+            if [ $? -eq 0 ]; then
+                echo "Python 3.9.18 set as global version successfully."
+            else
+                echo "Failed to set Python 3.9.18 as the global version."
+                exit 1
+            fi
+        else
+            echo "Failed to install Python 3.9.18."
+            exit 1
+        fi
     else
         echo "Failed to install pyenv."
         exit 1
@@ -86,4 +108,3 @@ if [ $? -eq 0 ]; then
 else
     echo "Failed to install Homebrew."
 fi
-
